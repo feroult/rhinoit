@@ -1,0 +1,17 @@
+
+import com.googlecode.mycontainer.commons.http.*;
+import rhinoit.servlet.*;
+
+helper = new GAETestHelper();
+helper.setPort(8080);
+helper.prepareLocalTaskQueue();
+helper.prepareLocalServiceTestHelper();
+container = helper.bootMycontainer();
+
+service = new HttpClientRequestService("http://localhost:8080");
+adapter = new RequestAdapter(service);
+
+container.waitFor();
+
+helper.shutdownMycontainer();
+
