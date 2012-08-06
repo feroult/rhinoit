@@ -21,6 +21,8 @@ import org.mozilla.javascript.ScriptableObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import rhinoit.js.RhinoUtil;
+
 public class RhinoitFilter implements Filter {
 
 	private static final Logger LOG = LoggerFactory

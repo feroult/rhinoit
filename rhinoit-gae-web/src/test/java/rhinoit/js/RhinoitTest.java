@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import rhinoit.servlet.RhinoUtil;
 
 public class RhinoitTest extends AbstractRhinoitTestCase {
 

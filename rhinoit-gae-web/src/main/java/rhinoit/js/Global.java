@@ -1,5 +1,6 @@
 package rhinoit.js;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -11,13 +12,13 @@ import org.mozilla.javascript.IdScriptableObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-import rhinoit.servlet.RhinoUtil;
-
 public class Global extends IdScriptableObject {
 
 	private static final long serialVersionUID = 1981033374348195776L;
 
-	private Map<String, Scriptable> modules = new HashMap<String, Scriptable>();
+	private Map<String, ScriptableObject> specs = new HashMap<String, ScriptableObject>();
+
+	private Map<String, Scriptable> mods = new HashMap<String, Scriptable>();
 
 	private Set<String> requireStack = new HashSet<String>();
 
@@ -30,31 +31,55 @@ public class Global extends IdScriptableObject {
 			Function funObj) {
 		String uri = (String) args[0];
 		Global global = (Global) ScriptableObject.getTopLevelScope(thisObj);
-		return global.module(uri);
+		return global.module(thisObj, uri);
 	}
 
-	public synchronized Scriptable module(String uri) {
-		Context cx = Context.enter();
-		try {
-			Scriptable exports = modules.get(uri);
-			if (exports == null) {
-				if (requireStack.contains(uri)) {
-					throw new RuntimeException("it is cyclic: " + uri + " "
-							+ requireStack);
-				}
-				requireStack.add(uri);
-				Scriptable scope = cx.newObject(this);
-				exports = cx.newObject(this);
-				scope.put("exports", scope, exports);
-				RhinoUtil.sourceClasspath(scope, Global.class, uri + ".js");
-				modules.put(uri, exports);
-				requireStack.remove(uri);
+	private synchronized Scriptable module(Scriptable thisObj, String uri) {
+		Scriptable exports = mods.get(uri);
+		if (exports == null) {
+			if (requireStack.contains(uri)) {
+				throw new RuntimeException("it is cyclic: " + uri + " "
+						+ requireStack);
 			}
-			return exports;
-		} finally {
-			Context.exit();
+			requireStack.add(uri);
+			exports = loadSpec(thisObj, uri);
+			if (exports == null && uri.startsWith(".")) {
+				exports = loadModule(thisObj, uri);
+			}
+			mods.put(uri, exports);
+			requireStack.remove(uri);
 		}
+		return exports;
+	}
 
+	private Scriptable loadModule(Scriptable thisObj, String uri) {
+		Context cx = Context.getCurrentContext();
+		Scriptable scope = cx.newObject(thisObj);
+		Scriptable exports = cx.newObject(thisObj);
+		scope.put("exports", scope, exports);
+		RhinoUtil.sourceClasspath(scope, Global.class, uri + ".js");
+		return exports;
+	}
+
+	private Scriptable loadSpec(Scriptable thisObj, String uri) {
+		try {
+			ScriptableObject spec = specs.get(uri);
+			if (spec == null) {
+				return null;
+			}
+			Context cx = Context.getCurrentContext();
+			Scriptable scope = cx.newObject(thisObj);
+			ScriptableObject.defineClass(scope, spec.getClass());
+			Scriptable ret = RhinoUtil.newScopeObject(scope,
+					spec.getClassName());
+			return ret;
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		} catch (InstantiationException e) {
+			throw new RuntimeException(e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public static Global create() {
@@ -74,4 +99,7 @@ public class Global extends IdScriptableObject {
 		}
 	}
 
+	public void addSpec(ScriptableObject spec) {
+		specs.put(spec.getClassName(), spec);
+	}
 }

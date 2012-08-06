@@ -1,7 +1,7 @@
 (function() {
 	
-	var m = require('math');
-	var m1 = require('math');
+	var m = require('Mymath');
+	var m1 = require('Mymath');
 	
 	if(m != m1) {
 		throw 'should be the same ' + m + ', ' + m1;
