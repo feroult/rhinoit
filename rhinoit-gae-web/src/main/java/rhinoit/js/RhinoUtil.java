@@ -11,11 +11,15 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrappedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.googlecode.mycontainer.commons.file.PathUtil;
 import com.googlecode.mycontainer.commons.io.IOUtil;
 
 public class RhinoUtil {
+
+	private static final Logger LOG = LoggerFactory.getLogger(RhinoUtil.class);
 
 	public static final class Source {
 		public final String sourceName;
@@ -32,7 +36,7 @@ public class RhinoUtil {
 		}
 
 		public String toStringShort() {
-			if(sourceName==null) {
+			if (sourceName == null) {
 				return toString();
 			}
 			String name = PathUtil.getName(sourceName);
@@ -44,6 +48,7 @@ public class RhinoUtil {
 	public static void source(Scriptable scope, Reader in, String filename) {
 		Context cx = Context.enter();
 		try {
+			LOG.info("source: " + filename);
 			cx.evaluateReader(scope, in, filename, 1, null);
 		} catch (IOException e) {
 			throw new RuntimeException(e);

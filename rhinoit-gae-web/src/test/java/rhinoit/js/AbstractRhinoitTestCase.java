@@ -12,7 +12,7 @@ public class AbstractRhinoitTestCase {
 	public void setUp() throws Exception {
 
 		System.setProperty("java.util.logging.config.file",
-				"\\Users\\murer\\proj\\GitHub\\rhinoit\\rhinoit-gae-web\\logging.properties");
+				"src/test/resources/logging.properties");
 		LogManager.getLogManager().readConfiguration();
 
 		global = Global.create();
