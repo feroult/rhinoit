@@ -10,6 +10,8 @@ import org.mozilla.javascript.ScriptableObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import rhinoit.js.RhinoUtil.Source;
+
 public class LogConsole extends ScriptableObject {
 
 	private static final long serialVersionUID = 8080161372977668796L;
@@ -21,11 +23,31 @@ public class LogConsole extends ScriptableObject {
 		return "console";
 	}
 
+	public static String jsFunction_error(Context cx, Scriptable thisObj,
+			Object[] args, Function funObj) {
+		String ret = format(thisObj, args);
+		LOG.error(ret);
+		return ret;
+	}
+
 	public static String jsFunction_info(Context cx, Scriptable thisObj,
 			Object[] args, Function funObj) {
-		LogConsole console = (LogConsole) thisObj;
-		String ret = console.format(args);
+		String ret = format(thisObj, args);
 		LOG.info(ret);
+		return ret;
+	}
+
+	private static String format(Scriptable thisObj, Object[] args) {
+		LogConsole console = (LogConsole) thisObj;
+		String msg = console.format(args);
+		Source source = RhinoUtil.getSource();
+		String src = "(unknown)";
+		if (source != null) {
+			src = source.toStringShort();
+		}
+		StringBuilder sb = new StringBuilder().append(src).append(" ")
+				.append(msg);
+		String ret = sb.toString();
 		return ret;
 	}
 

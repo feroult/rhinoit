@@ -1,4 +1,3 @@
-
 var console = require('console');
 
 testRhinoit = function() {

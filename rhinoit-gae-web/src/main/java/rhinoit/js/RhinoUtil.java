@@ -10,10 +10,36 @@ import java.net.URL;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.WrappedException;
 
+import com.googlecode.mycontainer.commons.file.PathUtil;
 import com.googlecode.mycontainer.commons.io.IOUtil;
 
 public class RhinoUtil {
+
+	public static final class Source {
+		public final String sourceName;
+		public final int lineNumber;
+
+		public Source(String sourceName, int lineNumber) {
+			this.sourceName = sourceName;
+			this.lineNumber = lineNumber;
+		}
+
+		@Override
+		public String toString() {
+			return "(" + sourceName + ":" + lineNumber + ")";
+		}
+
+		public String toStringShort() {
+			if(sourceName==null) {
+				return toString();
+			}
+			String name = PathUtil.getName(sourceName);
+			return "(" + name + ":" + lineNumber + ")";
+		}
+
+	}
 
 	public static void source(Scriptable scope, Reader in, String filename) {
 		Context cx = Context.enter();
@@ -68,6 +94,12 @@ public class RhinoUtil {
 		Function func = (Function) scope.get(constructor, scope);
 		Scriptable ret = func.construct(Context.getCurrentContext(), scope,
 				new Object[0]);
+		return ret;
+	}
+
+	public static Source getSource() {
+		WrappedException exp = new WrappedException(new RuntimeException());
+		Source ret = new Source(exp.sourceName(), exp.lineNumber());
 		return ret;
 	}
 

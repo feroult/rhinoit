@@ -21,12 +21,16 @@ public class RhinoLogFormatter extends Formatter {
 		sb.append(formatMessage(record));
 		sb.append(SystemUtils.LINE_SEPARATOR);
 		if (record.getThrown() != null) {
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
-			record.getThrown().printStackTrace(pw);
-			pw.close();
-			sb.append(sw.toString());
+			sb.append(record.getThrown());
 		}
 		return sb.toString();
+	}
+
+	public static StringWriter stack(Throwable throwable) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		throwable.printStackTrace(pw);
+		pw.close();
+		return sw;
 	}
 }
