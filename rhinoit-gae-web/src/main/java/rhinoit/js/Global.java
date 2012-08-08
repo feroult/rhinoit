@@ -46,8 +46,12 @@ public class Global extends IdScriptableObject {
 			if (exports == null && uri.startsWith(".")) {
 				exports = loadModule(thisObj, uri);
 			}
-			mods.put(uri, exports);
 			requireStack.remove(uri);
+			if (exports == null) {
+				throw new RuntimeException("module not found: " + uri);
+			}
+			mods.put(uri, exports);
+
 		}
 		return exports;
 	}
