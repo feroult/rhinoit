@@ -58,11 +58,9 @@ public class Global extends IdScriptableObject {
 
 	private Scriptable loadModule(Scriptable thisObj, String uri) {
 		Context cx = Context.getCurrentContext();
-		Scriptable scope = cx.newObject(thisObj);
-		Scriptable exports = cx.newObject(thisObj);
-		scope.put("exports", scope, exports);
-		RhinoUtil.sourceClasspath(scope, Global.class, uri + ".js");
-		return exports;
+		ModuleScope scope = (ModuleScope) cx.newObject(thisObj, "ModuleScope");
+		scope.load(uri);
+		return scope.getExports();
 	}
 
 	private Scriptable loadSpec(Scriptable thisObj, String uri) {
@@ -97,7 +95,15 @@ public class Global extends IdScriptableObject {
 			ret.defineFunctionProperties(new String[] { "require" },
 					Global.class, attrs);
 
+			ScriptableObject.defineClass(ret, ModuleScope.class);
+
 			return ret;
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		} catch (InstantiationException e) {
+			throw new RuntimeException(e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
 		} finally {
 			Context.exit();
 		}
