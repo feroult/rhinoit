@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 
-<!--  
+<!--
 	<servlet>
 		<servlet-name>default</servlet-name>
 		<servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
@@ -15,6 +15,29 @@
 		<load-on-startup>0</load-on-startup>
 	</servlet>
 -->
+
+	<servlet>
+		<servlet-name>HerokuProvisionServlet</servlet-name>
+		<servlet-class>rhinoit.heroku.servlet.ProvisionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HerokuProvisionServlet</servlet-name>
+		<url-pattern>/heroku/resources</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>HerokuProvisionServlet</servlet-name>
+		<url-pattern>/heroku/resources/*</url-pattern>
+	</servlet-mapping>
+
+	<filter>
+		<filter-name>HerokuSecurityFilter</filter-name>
+		<filter-class>rhinoit.servlet.SecurityFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SecurityFilter</filter-name>
+		<url-pattern>/heroku/*</url-pattern>
+	</filter-mapping>
+
 
 	<filter>
 		<filter-name>RhinoitFilter</filter-name>

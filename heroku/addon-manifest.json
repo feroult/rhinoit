@@ -1,0 +1,16 @@
+{
+  "id": "restitory",
+  "api": {
+    "config_vars": [ "RESTITORY_URL" ],
+    "password": "TWADivJAlFXR9y8b",
+    "sso_salt": "gY6FsHBsbHd2eYqM",
+    "production": {
+      "base_url": "https://yourapp.com/heroku/resources",
+      "sso_url": "https://yourapp.com/sso/login"
+    },
+    "test": {
+      "base_url": "http://localhost:8080/heroku/resources",
+      "sso_url": "http://localhost:8080/sso/login"
+    }
+  }
+}
