@@ -16,6 +16,7 @@
 	</servlet>
 -->
 
+<<<<<<< HEAD
 	<servlet>
 		<servlet-name>HerokuProvisionServlet</servlet-name>
 		<servlet-class>rhinoit.heroku.servlet.ProvisionServlet</servlet-class>
@@ -39,6 +40,9 @@
 	</filter-mapping>
 
 
+=======
+		<!--  
+>>>>>>> 55c086300b92703b8c44e2c823ac74528a8fd20d
 	<filter>
 		<filter-name>RhinoitFilter</filter-name>
 		<filter-class>rhinoit.servlet.RhinoitFilter</filter-class>
@@ -47,6 +51,7 @@
 		<filter-name>RhinoitFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	-->
 
 </web-app>
 
