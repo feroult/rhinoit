@@ -16,6 +16,7 @@
 	</servlet>
 -->
 
+		<!--  
 	<filter>
 		<filter-name>RhinoitFilter</filter-name>
 		<filter-class>rhinoit.servlet.RhinoitFilter</filter-class>
@@ -24,6 +25,7 @@
 		<filter-name>RhinoitFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	-->
 
 </web-app>
 
