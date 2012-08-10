@@ -4,6 +4,7 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 public class DatabaseService {
@@ -24,10 +25,22 @@ public class DatabaseService {
 		return ret;
 	}
 
+	public void destroy(Long id) {
+		DatastoreService s = getDatastore();
+		s.delete(createKey(id));
+	}
+
+	public void update(Long id, String... param) {
+		Entity e = get(id);
+		for(int i = 0; i < param.length; i += 2) {
+			e.setUnindexedProperty(param[i], param[i+1]);
+		}
+	}
+
 	public Entity get(Long id) {
 		try {
 			DatastoreService s = DatastoreServiceFactory.getDatastoreService();
-			Entity ret = s.get(KeyFactory.createKey("Scrap", id));
+			Entity ret = s.get(createKey(id));
 			return ret;
 		} catch (EntityNotFoundException e) {
 			return null;
@@ -37,5 +50,9 @@ public class DatabaseService {
 	private void put(Entity entity) {
 		DatastoreService ds = getDatastore();
 		ds.put(entity);
+	}
+
+	private Key createKey(Long id) {
+		return KeyFactory.createKey("Database", id);
 	}
 }
