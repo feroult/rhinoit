@@ -40,7 +40,7 @@ public class SecurityFilter implements Filter {
 		if (!validUser(header.get("username"), header.get("password"))) {
 			resp.setStatus(401);
 			resp.setHeader("WWW-Authenticate",
-					"basic realm=\"Auth (" + System.currentTimeMillis() + ")\"");
+					"basic realm=\"Auth (restitory)\"");
 			return;
 		}
 
