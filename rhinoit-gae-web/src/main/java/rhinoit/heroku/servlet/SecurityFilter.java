@@ -24,7 +24,7 @@ public class SecurityFilter implements Filter {
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		users = new LinkedHashMap<String, String>();
-		users.put("jow", "3213123");
+		users.put("restitory", "TWADivJAlFXR9y8b");
 	}
 
 	@Override
@@ -34,16 +34,22 @@ public class SecurityFilter implements Filter {
 		final HttpServletRequest req = (HttpServletRequest) request;
 		final HttpServletResponse resp = (HttpServletResponse) response;
 
-		HashMap<String, String> header = parseHeader(req.getHeader("Authorization"));
+		HashMap<String, String> header = parseHeader(req
+				.getHeader("Authorization"));
 
-        if(!(header.get("username").equals("restitory") && header.get("password").equals("TWADivJAlFXR9y8b"))) {
-            resp.setStatus(401);
-            resp.setHeader("WWW-Authenticate", "basic realm=\"Auth (" + System.currentTimeMillis() + ")\"" );
-            return;
-        }
-
+		if (!validUser(header.get("username"), header.get("password"))) {
+			resp.setStatus(401);
+			resp.setHeader("WWW-Authenticate",
+					"basic realm=\"Auth (" + System.currentTimeMillis() + ")\"");
+			return;
+		}
 
 		chain.doFilter(request, response);
+	}
+
+	private boolean validUser(String username, String password) {
+		return users.get(username) != null
+				&& users.get(username).equals(password);
 	}
 
 	@Override
@@ -52,13 +58,14 @@ public class SecurityFilter implements Filter {
 
 	}
 
-	private HashMap<String, String> parseHeader(String header) throws UnsupportedEncodingException {
+	private HashMap<String, String> parseHeader(String header)
+			throws UnsupportedEncodingException {
 
 		HashMap<String, String> parsedHeader = new LinkedHashMap<String, String>();
 
 		if ((header != null) && header.startsWith("Basic ")) {
-            byte[] base64Token = header.substring(6).getBytes("UTF-8");
-            String token;
+			byte[] base64Token = header.substring(6).getBytes("UTF-8");
+			String token;
 
 			try {
 				token = new String(Base64.decode(base64Token), "UTF-8");
@@ -66,17 +73,17 @@ public class SecurityFilter implements Filter {
 				throw new RuntimeException(e);
 			}
 
-            String username = "";
-            String password = "";
-            int delim = token.indexOf(":");
+			String username = "";
+			String password = "";
+			int delim = token.indexOf(":");
 
-            if (delim != -1) {
-                username = token.substring(0, delim);
-                password = token.substring(delim + 1);
-            }
+			if (delim != -1) {
+				username = token.substring(0, delim);
+				password = token.substring(delim + 1);
+			}
 
-            parsedHeader.put("username", username);
-            parsedHeader.put("password", password);
+			parsedHeader.put("username", username);
+			parsedHeader.put("password", password);
 		}
 
 		return parsedHeader;
