@@ -55,7 +55,6 @@ public class SecurityFilter implements Filter {
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
-
 	}
 
 	private HashMap<String, String> parseHeader(String header)
