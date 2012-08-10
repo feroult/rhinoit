@@ -9,6 +9,7 @@ import java.net.URL;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrappedException;
 import org.slf4j.Logger;
@@ -45,11 +46,14 @@ public class RhinoUtil {
 
 	}
 
-	public static void source(Scriptable scope, Reader in, String filename) {
+	public static Object source(Scriptable scope, Reader in, String filename) {
 		Context cx = Context.enter();
 		try {
-			LOG.info("source: " + filename);
-			cx.evaluateReader(scope, in, filename, 1, null);
+			LOG.info("source: " + filename + " " + Context.toString(scope));
+			Script script = cx.compileReader(in, filename, 1, null);
+			//Object ret = cx.evaluateReader(scope, in, filename, 1, null);
+			Object ret = script.exec(cx, scope);
+			return ret;
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -57,12 +61,12 @@ public class RhinoUtil {
 		}
 	}
 
-	public static void source(Scriptable scope, URL url) {
+	public static Object source(Scriptable scope, URL url) {
 		Reader in = null;
 		try {
 			in = new InputStreamReader(
 					new BufferedInputStream(url.openStream()), "utf-8");
-			source(scope, in, url.toString());
+			return source(scope, in, url.toString());
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		} catch (IOException e) {
@@ -81,7 +85,7 @@ public class RhinoUtil {
 		}
 	}
 
-	public static void sourceClasspath(Scriptable scope, Class<?> clazz,
+	public static Object sourceClasspath(Scriptable scope, Class<?> clazz,
 			String name) {
 		URL url = null;
 		if (clazz == null) {
@@ -92,7 +96,7 @@ public class RhinoUtil {
 		if (url == null) {
 			throw new RuntimeException("not found: " + name + " using " + clazz);
 		}
-		source(scope, url);
+		return source(scope, url);
 	}
 
 	public static Scriptable newScopeObject(Scriptable scope, String constructor) {
@@ -108,4 +112,18 @@ public class RhinoUtil {
 		return ret;
 	}
 
+	public static String toScopeString(Scriptable s) {
+		StringBuilder builder = new StringBuilder();
+		builder.append('[');
+		while (s != null) {
+			builder.append(s);
+			s = s.getParentScope();
+			if (s != null) {
+				builder.append(", ");
+			}
+
+		}
+		builder.append(']');
+		return builder.toString();
+	}
 }

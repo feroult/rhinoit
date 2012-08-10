@@ -1,6 +1,8 @@
 package rhinoit.js;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -8,6 +10,7 @@ import java.util.Set;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
+import org.mozilla.javascript.FunctionObject;
 import org.mozilla.javascript.IdScriptableObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -30,8 +33,12 @@ public class Global extends IdScriptableObject {
 	public static Object require(Context cx, Scriptable thisObj, Object[] args,
 			Function funObj) {
 		String uri = (String) args[0];
+		FunctionObject f = (FunctionObject) funObj;
+		System.out.println("start: " + uri + " " + Context.toString(thisObj));
 		Global global = (Global) ScriptableObject.getTopLevelScope(thisObj);
-		return global.module(thisObj, uri);
+		Scriptable ret = global.module(thisObj, uri);
+		System.out.println("end: " + uri + " " + Context.toString(thisObj));
+		return ret;
 	}
 
 	private synchronized Scriptable module(Scriptable thisObj, String uri) {
@@ -92,9 +99,20 @@ public class Global extends IdScriptableObject {
 			int attrs = ScriptableObject.DONTENUM | ScriptableObject.PERMANENT
 					| ScriptableObject.READONLY;
 
-			ret.defineFunctionProperties(new String[] { "require" },
-					Global.class, attrs);
-
+			//ret.defineFunctionProperties(new String[] { "require" },
+			//		Global.class, attrs);
+			
+			ret.defineProperty("require", new Require() {
+				@Override
+				public Object call(Context cx, Scriptable scope,
+						Scriptable thisObj, Object[] args) {
+					System.out.println("START: " + Context.toString(scope) + " " + Arrays.toString(args));
+					Object ret = super.call(cx, scope, thisObj, args);
+					System.out.println("END: " + Context.toString(scope) + " " + Arrays.toString(args));
+					return ret;
+				}
+			}, DONTENUM);
+			
 			ScriptableObject.defineClass(ret, ModuleScope.class);
 
 			return ret;
@@ -112,4 +130,18 @@ public class Global extends IdScriptableObject {
 	public void addSpec(ScriptableObject spec) {
 		specs.put(spec.getClassName(), spec);
 	}
+
+	public Object load(URL url) {
+		Context cx = Context.enter();
+		try {
+			System.out.println("start: " + url + " " + Context.toString(this));
+			ModuleScope scope = (ModuleScope) cx.newObject(this, "ModuleScope");
+			Object ret = scope.load(url.toString());
+			System.out.println("end: " + url + " " + Context.toString(this));
+			return ret;
+		} finally {
+			Context.exit();
+		}
+	}
+
 }

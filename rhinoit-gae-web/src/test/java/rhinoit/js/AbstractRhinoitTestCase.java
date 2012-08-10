@@ -1,8 +1,10 @@
 package rhinoit.js;
 
+import java.net.URL;
 import java.util.logging.LogManager;
 
 import org.junit.Before;
+import org.mozilla.javascript.ContextFactory;
 
 public class AbstractRhinoitTestCase {
 
@@ -10,6 +12,10 @@ public class AbstractRhinoitTestCase {
 
 	@Before
 	public void setUp() throws Exception {
+
+		if (!ContextFactory.hasExplicitGlobal()) {
+			MyContextFactory.init();
+		}
 
 		System.setProperty("java.util.logging.config.file",
 				"src/test/resources/logging.properties");
@@ -20,8 +26,11 @@ public class AbstractRhinoitTestCase {
 		global.addSpec(new LogConsole());
 		global.addSpec(new MymathJSModule());
 
-		RhinoUtil.sourceClasspath(global, getClass(), getClass()
-				.getSimpleName() + ".js");
+		URL url = getClass().getResource(getClass().getSimpleName() + ".js");
+		global.load(url);
+
+		// RhinoUtil.sourceClasspath(global, getClass(), getClass()
+		// .getSimpleName() + ".js");
 	}
 
 }
