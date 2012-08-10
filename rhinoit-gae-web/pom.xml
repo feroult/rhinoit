@@ -19,6 +19,10 @@
 		<mycontainer.version>1.2.47</mycontainer.version>
 	</properties>
 
+	<!-- TODO: ARRUMAR DEPENDENCIA DO RHINO
+	http://central.maven.org/maven2/org/mozilla/rhino/1.7R4/
+	-->
+
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
