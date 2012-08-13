@@ -3,7 +3,7 @@ package rhinoit.js.shell;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.tools.shell.Main;
 
-import rhinoit.js.GlobalFactory;
+import rhinoit.js.VoidRepoGlobalFactory;
 
 public class Shell {
 
@@ -11,7 +11,7 @@ public class Shell {
 		Context cx = Context.enter();
 		try {
 			Main.global.init(cx);
-			Main.global.setParentScope(GlobalFactory.global());
+			Main.global.setParentScope(VoidRepoGlobalFactory.global());
 			Main.main(args);
 		} finally {
 			Context.exit();

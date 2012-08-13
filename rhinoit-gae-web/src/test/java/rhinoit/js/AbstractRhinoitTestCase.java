@@ -8,7 +8,7 @@ import org.mozilla.javascript.ContextFactory;
 
 public class AbstractRhinoitTestCase {
 
-	protected Global global;
+	protected VoidRepoGlobal global;
 
 	@Before
 	public void setUp() throws Exception {
@@ -21,7 +21,7 @@ public class AbstractRhinoitTestCase {
 				"src/test/resources/logging.properties");
 		LogManager.getLogManager().readConfiguration();
 
-		global = Global.create();
+		global = VoidRepoGlobal.create();
 
 		global.addSpec(new LogConsole());
 		global.addSpec(new MymathJSModule());
