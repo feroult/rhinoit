@@ -27,37 +27,7 @@ public class ProvisionServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
-		// Montando json
-		JsonObject obj = new JsonObject();
-		
-		obj.addProperty("name", "xxx"); 
-		obj.add("x", new JsonPrimitive("x")); 
-		
-		obj.add("x", new JsonObject());
-		obj.add("x", new JsonArray());
 
-		// heranca: JsonElement is super class for JsonObject, JsonArray, JsonPrimitive, JsonNull
-		// JsonPrimitive is used for String, number, boolean.
-		
-		// Parse json
-		JsonElement json = JsonUtil.parse("{}");
-		// json format
-		json.toString();
-		
-		// read json from the request
-		json = ServletUtil.readJson(req);
-		
-		// Write json to response
-		ServletUtil.write(resp, json);
-		
-		// gravar no gae usando "Text"
-		Entity x = new Entity("xxx");
-		x.setUnindexedProperty("doc", new Text(json.toString()));
-		
-		// setUnindexedProperty over setProperty :)
-		
-		
 		DatabaseService s = DatabaseService.getDatabaseService();
 		Entity e = s.create();
 

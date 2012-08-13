@@ -38,6 +38,17 @@
 		<url-pattern>/heroku/*</url-pattern>
 	</filter-mapping>
 
+
+    <servlet>
+        <servlet-name>RestitoryServlet</servlet-name>
+        <servlet-class>rhinoit.restitory.servlet.RestitoryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RestitoryServlet</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+
 <!--
 	<filter>
 		<filter-name>RhinoitFilter</filter-name>
