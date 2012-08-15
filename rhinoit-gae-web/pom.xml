@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>rhinoit</groupId>
-	<artifactId>rhinoit-gae-web</artifactId>
+	<groupId>voidrepo</groupId>
+	<artifactId>voidrepo-gae-web</artifactId>
 	<packaging>war</packaging>
-	<name>rhinoit-gae-web</name>
+	<name>voidrepo-gae-web</name>
 	<version>1.0.0-SNAPSHOT</version>
 
 	<!-- Specify hard-coded project properties here -->
@@ -89,7 +89,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>rhinoit-gae-web</finalName>
+		<finalName>voidrepo-gae-web</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -185,9 +185,9 @@
 	</pluginRepositories>
 
 	<scm>
-		<connection>scm:svn:http://sharedlabs.fuweweu.com/svn/trunk/rhinoit/rhinoit-gae-web</connection>
-		<developerConnection>scm:svn:http://sharedlabs.fuweweu.com/svn/trunk/rhinoit/rhinoit-gae-web</developerConnection>
-		<url>http://sharedlabs.fuweweu.com/svn/trunk/rhinoit/rhinoit-gae-web</url>
+		<connection>scm:svn:http://sharedlabs.fuweweu.com/svn/trunk/voidrepo/voidrepo-gae-web</connection>
+		<developerConnection>scm:svn:http://sharedlabs.fuweweu.com/svn/trunk/voidrepo/voidrepo-gae-web</developerConnection>
+		<url>http://sharedlabs.fuweweu.com/svn/trunk/voidrepo/voidrepo-gae-web</url>
 	</scm>
 
 	<dependencyManagement>

@@ -18,7 +18,7 @@
 
 	<servlet>
 		<servlet-name>HerokuProvisionServlet</servlet-name>
-		<servlet-class>rhinoit.heroku.servlet.ProvisionServlet</servlet-class>
+		<servlet-class>voidrepo.heroku.servlet.ProvisionServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>HerokuProvisionServlet</servlet-name>
@@ -31,7 +31,7 @@
 
 	<filter>
 		<filter-name>HerokuSecurityFilter</filter-name>
-		<filter-class>rhinoit.heroku.servlet.SecurityFilter</filter-class>
+		<filter-class>voidrepo.heroku.servlet.SecurityFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>HerokuSecurityFilter</filter-name>
@@ -41,7 +41,7 @@
 
     <servlet>
         <servlet-name>RestitoryServlet</servlet-name>
-        <servlet-class>rhinoit.restitory.servlet.RestitoryServlet</servlet-class>
+        <servlet-class>voidrepo.restitory.servlet.RestitoryServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RestitoryServlet</servlet-name>
@@ -51,11 +51,11 @@
 
 <!--
 	<filter>
-		<filter-name>RhinoitFilter</filter-name>
-		<filter-class>rhinoit.servlet.RhinoitFilter</filter-class>
+		<filter-name>VoidrepoFilter</filter-name>
+		<filter-class>voidrepo.servlet.VoidrepoFilter</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>RhinoitFilter</filter-name>
+		<filter-name>VoidrepoFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
  -->

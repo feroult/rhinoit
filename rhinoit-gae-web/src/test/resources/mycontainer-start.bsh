@@ -1,6 +1,6 @@
 
 import com.googlecode.mycontainer.commons.http.*;
-import rhinoit.servlet.*;
+import voidrepo.servlet.*;
 
 helper = new GAETestHelper();
 helper.setPort(8080);
