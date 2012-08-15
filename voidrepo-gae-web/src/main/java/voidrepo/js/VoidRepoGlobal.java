@@ -72,6 +72,9 @@ public class VoidRepoGlobal extends IdScriptableObject {
 
 	public void addSpec(ScriptableObject spec) {
 		specs.put(spec.getClassName(), spec);
+		if (spec instanceof Module) {
+			((Module) spec).init(this);
+		}
 	}
 
 	public static VoidRepoGlobal create() {

@@ -1,7 +1,6 @@
 var console = require('console');
 var speed = require('./speed');
 
-
 testRhino = function() {
 	console.info('testRhino');
 	return "ok";

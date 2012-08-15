@@ -17,6 +17,15 @@
 -->
 
 	<servlet>
+		<servlet-name>EchoServlet</servlet-name>
+		<servlet-class>voidrepo.servlet.EchoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EchoServlet</servlet-name>
+		<url-pattern>/t/echo</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>HerokuProvisionServlet</servlet-name>
 		<servlet-class>voidrepo.heroku.servlet.ProvisionServlet</servlet-class>
 	</servlet>
