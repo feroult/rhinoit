@@ -19,13 +19,7 @@
 		<mycontainer.version>1.2.48</mycontainer.version>
 	</properties>
 
-	<!-- TODO: ARRUMAR DEPENDENCIA DO RHINO http://central.maven.org/maven2/org/mozilla/rhino/1.7R4/ -->
-
 	<dependencies>
-		<dependency>
-			<groupId>org.mozilla</groupId>
-			<artifactId>rhino</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -213,11 +207,6 @@
 				<version>1.6.1</version>
 			</dependency>
 			<dependency>
-				<groupId>org.mozilla</groupId>
-				<artifactId>rhino</artifactId>
-				<version>1.7R4</version>
-			</dependency>
-			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
 				<version>1.6.1</version>
@@ -296,12 +285,6 @@
 				<groupId>com.googlecode.mycontainer</groupId>
 				<artifactId>mycontainer-commons</artifactId>
 				<version>${mycontainer.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>rhino</groupId>
-						<artifactId>js</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
