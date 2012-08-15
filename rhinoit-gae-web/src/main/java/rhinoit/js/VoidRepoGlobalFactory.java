@@ -13,6 +13,7 @@ public class VoidRepoGlobalFactory {
 		if (global == null) {
 			synchronized (MUTEX) {
 				if (global == null) {
+					MyContextFactory.init();
 					VoidRepoGlobal g = VoidRepoGlobal.create();
 					g.addSpec(new LogConsole());
 					global = g;
