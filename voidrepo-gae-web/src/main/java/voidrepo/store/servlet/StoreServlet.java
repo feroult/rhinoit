@@ -1,4 +1,4 @@
-package voidrepo.restitory.servlet;
+package voidrepo.store.servlet;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.JsonObject;
 import com.googlecode.mycontainer.commons.servlet.ServletUtil;
 
-public class RestitoryServlet extends HttpServlet {
+public class StoreServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -6453129665137506165L;
 
@@ -24,6 +24,8 @@ public class RestitoryServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
+
+		CallInfo ci = CallInfo.parse(req.getRequestURL().toString());
 
 		JsonObject obj = new JsonObject();
 	    obj.addProperty("nome", "fernando");

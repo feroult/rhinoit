@@ -49,11 +49,11 @@
 
 
     <servlet>
-        <servlet-name>RestitoryServlet</servlet-name>
-        <servlet-class>voidrepo.restitory.servlet.RestitoryServlet</servlet-class>
+        <servlet-name>StoreServlet</servlet-name>
+        <servlet-class>voidrepo.store.servlet.StoreServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>RestitoryServlet</servlet-name>
+        <servlet-name>StoreServlet</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 

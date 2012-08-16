@@ -1,15 +1,13 @@
-package voidrepo.restitory.servlet;
+package voidrepo.store.servlet;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import voidrepo.servlet.AbstractTestCase;
-
 import com.google.gson.JsonObject;
 import com.googlecode.mycontainer.commons.http.Request;
 
-public class RestitoryBasicTest extends AbstractTestCase {
+public class StoreBasicTest extends AbstractStoreTestCase {
 
 	@Test
 	public void testCreate() {
